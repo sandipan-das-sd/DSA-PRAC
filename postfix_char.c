@@ -5,6 +5,7 @@
 
 char stack[N];
 int top = -1;
+char r, x, y, a;
 
 void push(char item) {
     if (top == N - 1) {
@@ -26,46 +27,41 @@ char pop() {
 
 int evalPostfix(char e[]) {
     int i;
-    char x, y;
     for (i = 0; i < strlen(e); i++) {
         if (e[i] >= 'a' && e[i] <= 'z') {
             push(e[i]);
         } else {
-            if (top < 1) {
-                printf("Invalid expression.\n");
-                return -1;
-            }
             x = pop();
             y = pop();
             switch (e[i]) {
                 case '+':
-                    push(y + x);
+                    r = y + x;
                     break;
                 case '-':
-                    push(y - x);
+                    r = y - x;
                     break;
                 case '*':
-                    push(y * x);
+                    r = y * x;
                     break;
                 case '/':
-                    push(y / x);
+                    r = y / x;
                     break;
                 default:
                     printf("Invalid expression.\n");
                     return -1;
             }
+            push(r);
         }
     }
-    return pop();
+    a = pop();
+    return a;
 }
 
 int main() {
     printf("Enter the postfix expression:\n");
     char e[20];
     fgets(e, sizeof(e), stdin);
-    int result = evalPostfix(e);
-    if (result != -1) {
-        printf("The result of the postfix expression is %d\n", result);
-    }
+    int x = evalPostfix(e);
+    printf("The result of the postfix expression is %c\n", x);
     return 0;
 }
